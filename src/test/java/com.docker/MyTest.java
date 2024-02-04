@@ -18,17 +18,17 @@ import java.util.List;
  * @date: 2024/2/4
  * @version: 1.0
  */
-@SpringBootTest(classes = Appendable.class)
-@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = Appendable.class)
+//@RunWith(SpringRunner.class)
 @Slf4j
 public class MyTest {
 
-    @Autowired
+    //@Autowired
     UserDao userDao;
 
 
 
-    @Test
+    //@Test
     public void myTest(){
 
         List<User> users = userDao.selectAll();

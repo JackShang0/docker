@@ -2,6 +2,7 @@ package com.docker.controller;
 
 import com.docker.bean.User;
 import com.docker.dao.UserDao;
+import org.apache.ibatis.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,7 @@ public class CountController {
      */
     @PostMapping("/selectUser")
     public List<User> selectUser(){
+        Cache cache;
 
         /*
         执行日志：第一次查询数据库，第二次查询命中缓存

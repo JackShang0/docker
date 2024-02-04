@@ -2,8 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.docker.dao.UserDao">
 
-    <!--开启mybatis的二级缓存-->
-    <cache/>
+    <!--开启mybatis的默认二级缓存-->
+    <!--<cache/>
+    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"/>-->
+
+    <!--指向redis的cache-->
+    <cache type="com.docker.cache.RedisCache"/>
 
     <resultMap id="resultMap" type="com.docker.bean.User">
         <id property="id" column="id"/>
