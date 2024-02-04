@@ -16,6 +16,8 @@ spring:
     host: 47.106.68.235
     password: 2024go
 mybatis-plus:
+  type-aliases-package: com.docker.bean
+  mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
     map-underscore-to-camel-case: true
