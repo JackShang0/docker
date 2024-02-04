@@ -82,18 +82,43 @@ public class RedisCache implements Cache {
         //return null;
     }
 
+    /**
+     * 删除缓存  mybatis没有实现
+     * @param o key
+     * @return result
+     */
     @Override
     public Object removeObject(Object o) {
+        log.info("删除数据，调用了 removeObject 方法");
         return null;
     }
 
+    /**
+     * 清空缓存  只要发生增删改动作，都会触发清空缓存
+     */
     @Override
     public void clear() {
+        log.info("删除数据，调用了clear方法");
+        RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
+        //redis 的序列化
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+
+        //情况缓存 将大key删除
+        redisTemplate.delete(id);
 
     }
 
+    /**
+     * 用来计算缓存的击数量
+     * @return 击中率
+     */
     @Override
     public int getSize() {
-        return 0;
+        RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
+        //redis 的序列化
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+
+        //获取hash 中缓存的数量
+        return redisTemplate.opsForHash().size(id).intValue();
     }
 }

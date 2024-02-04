@@ -69,4 +69,18 @@ public class CountController {
          */
         return userDao.selectAll();
     }
+
+
+    @PostMapping("/selectUserById")
+    public User selectUserById(){
+        User user = userDao.selectById("1");
+        System.out.println("user = " + user);
+        System.out.println(" ==================== " );
+        return userDao.selectById("1");
+    }
+
+    @PostMapping("/deleteById")
+    public void deleteById(){
+        userDao.deleteById("1");
+    }
 }

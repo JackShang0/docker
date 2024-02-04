@@ -28,4 +28,11 @@
         select distinct country from pop_all_info
     </select>-->
 
+    <select id="selectById" parameterType="java.lang.String" resultType="com.docker.bean.User">
+        select * from user_info where id=#{id};
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String" >
+        delete from user_info where id=#{id};
+    </delete>
 </mapper>
