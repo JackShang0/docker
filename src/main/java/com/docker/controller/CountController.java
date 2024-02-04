@@ -38,9 +38,33 @@ public class CountController {
     }
 
 
+    /**
+     * mybatis的二级缓存案例
+     * @return u
+     */
     @PostMapping("/selectUser")
     public List<User> selectUser(){
-        //List<User> users =
+
+        /*
+        执行日志：第一次查询数据库，第二次查询命中缓存
+
+         * SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3b5ae09e] was not registered for synchronization because synchronization is not active
+         * Cache Hit Ratio [com.docker.dao.UserDao]: 0.0
+         * JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@52560acc] will not be managed by Spring
+         * ==>  Preparing: select * from user_info;
+         * ==> Parameters:
+         * <==    Columns: id, name, age, className, subject
+         * <==        Row: 1, zs, 15, 1, 语文
+         * <==        Row: 2, ls, 15, 1, 数学
+         * <==        Row: 3, zs, 15, 1, 数学
+         * <==      Total: 3
+         * Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3b5ae09e]
+         * Creating a new SqlSession
+         * SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@21fbc935] was not registered for synchronization because synchronization is not active
+         * As you are using functionality that deserializes object streams, it is recommended to define the JEP-290 serial filter. Please refer to https://docs.oracle.com/pls/topic/lookup?ctx=javase15&id=GUID-8296D8E8-2B93-4B9A-856E-0A65AF9B8C66
+         * Cache Hit Ratio [com.docker.dao.UserDao]: 0.5
+         * Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@21fbc935]
+         */
         return userDao.selectAll();
     }
 }

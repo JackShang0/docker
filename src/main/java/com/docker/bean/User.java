@@ -3,6 +3,8 @@ package com.docker.bean;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @description:
  * @author: shangqj
@@ -11,7 +13,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class User {
+public class User implements Serializable {
 
     /**
      *   `id` bigint NOT NULL AUTO_INCREMENT,
