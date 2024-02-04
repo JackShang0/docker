@@ -6,8 +6,6 @@ import org.apache.ibatis.cache.Cache;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import javax.annotation.Resource;
-import java.applet.AppletContext;
 
 /**
  * @description: 自定义 Redis cache
@@ -48,19 +46,15 @@ public class RedisCache implements Cache {
         System.out.println("key = " + key.toString());
         System.out.println("value = " + value);
 
-        //首字母必须默认为小写
-        RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
-        //redis 的序列化
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        RedisTemplate redisTemplate = getRedisTemplate();
         //redisTemplate.setValueSerializer(new StringRedisSerializer());
         //redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
         //使用redis中的hash类型作为存储模型 key 当前mapper的namespace hashkey为方法key value为值
         redisTemplate.opsForHash().put(id,key.toString(),value);
 
-
-
     }
+
 
     //缓存中取出数据
     @Override
@@ -71,9 +65,7 @@ public class RedisCache implements Cache {
 
          */
         System.out.println("key = " + key.toString());
-        RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
-        //redis 的序列化
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        RedisTemplate redisTemplate = getRedisTemplate();
         //redisTemplate.setValueSerializer(new StringRedisSerializer());
         //redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
@@ -99,9 +91,7 @@ public class RedisCache implements Cache {
     @Override
     public void clear() {
         log.info("删除数据，调用了clear方法");
-        RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
-        //redis 的序列化
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        RedisTemplate redisTemplate = getRedisTemplate();
 
         //情况缓存 将大key删除
         redisTemplate.delete(id);
@@ -114,11 +104,21 @@ public class RedisCache implements Cache {
      */
     @Override
     public int getSize() {
+        RedisTemplate redisTemplate = getRedisTemplate();
+        //获取hash 中缓存的数量
+        return redisTemplate.opsForHash().size(id).intValue();
+    }
+
+
+    /**
+     * redisTemplate 统一封装
+     * @return redisTemplate
+     */
+    private static RedisTemplate getRedisTemplate() {
+        //首字母必须默认为小写
         RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
         //redis 的序列化
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-
-        //获取hash 中缓存的数量
-        return redisTemplate.opsForHash().size(id).intValue();
+        return redisTemplate;
     }
 }
