@@ -1,6 +1,7 @@
 package com.docker.controller;
 
 import com.docker.bean.User;
+import com.docker.dao.StudentDao;
 import com.docker.dao.UserDao;
 import org.apache.ibatis.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class CountController {
 
     @Resource
     UserDao userDao;
+
+    @Resource
+    StudentDao studentDao;
 
     /**
      * docker集成redis 并操作成功
@@ -82,5 +86,16 @@ public class CountController {
     @PostMapping("/deleteById")
     public void deleteById(){
         userDao.deleteById("1");
+    }
+
+    @PostMapping("/saveUser")
+    public void saveUser(){
+        userDao.saveUser(new User().setName("ww").setAge("15").setClassName("1").setSubject("数学"));
+    }
+
+
+    @PostMapping("/selectStudent")
+    public void selectStudent(){
+        studentDao.selectAll();
     }
 }

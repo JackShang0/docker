@@ -13,24 +13,18 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-public class User implements Serializable {
+public class Student implements Serializable {
 
     /**
 
-     CREATE TABLE `user_info` (
+     CREATE TABLE `student_info` (
      `id` bigint(20) NOT NULL AUTO_INCREMENT,
      `name` varchar(255) DEFAULT NULL,
-     `age` varchar(255) DEFAULT NULL,
-     `className` varchar(255) DEFAULT NULL,
-     `subject` varchar(255) DEFAULT NULL,
      PRIMARY KEY (`id`)
-     ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
      */
     private Integer id;
     private String name;
-    private String age;
-    private String className;
-    private String subject;
 
 }

@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.docker.dao.UserDao">
+<mapper namespace="com.docker.dao.StudentDao">
 
     <!--开启mybatis的默认二级缓存-->
     <!--<cache/>
     <cache type="org.apache.ibatis.cache.impl.PerpetualCache"/>-->
 
     <!--指向redis的cache-->
-    <cache type="com.docker.cache.RedisCache"/>
+    <!--<cache type="com.docker.cache.RedisCache"/>-->
+
+    <!--多表关联查询使用   namespace 相互指向即可-->
+    <cache-ref namespace="com.docker.dao.UserDao"/>
 
     <resultMap id="resultMap" type="com.docker.bean.User">
         <id property="id" column="id"/>
         <id property="name" column="name"/>
-        <id property="age" column="age"/>
-        <id property="className" column="className"/>
-        <id property="subject" column="subject"/>
-
     </resultMap>
 
 
 
     <select id="selectAll"  resultMap="resultMap">
-        select *  from user_info;
+        select * from student_info;
     </select>
 
-    <!--<select id="queryCountry" parameterType="com.sitech.oss.entity.po.POPAllInfo" resultMap="resultMap">
-        select distinct country from pop_all_info
-    </select>-->
 
     <select id="selectById" parameterType="java.lang.String" resultType="com.docker.bean.User">
         select * from user_info where id=#{id};

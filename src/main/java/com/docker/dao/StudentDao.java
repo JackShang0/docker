@@ -1,5 +1,6 @@
 package com.docker.dao;
 
+import com.docker.bean.Student;
 import com.docker.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,11 +13,7 @@ import java.util.List;
  * @version: 1.0
  */
 @Mapper
-public interface UserDao {
+public interface StudentDao {
 
-    List<User> selectAll();
-    User selectById(String id);
-    void deleteById(String id);
-
-    int saveUser(User user);
+    List<Student> selectAll();
 }
