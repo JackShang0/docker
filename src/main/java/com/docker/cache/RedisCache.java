@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.DigestUtils;
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -43,15 +45,16 @@ public class RedisCache implements Cache {
          value = [User(id=1, name=zs, age=15, className=1, subject=语文), User(id=2, name=ls, age=15, className=1, subject=数学), User(id=3, name=zs, age=15, className=1, subject=数学)]
 
          */
-        System.out.println("key = " + key.toString());
+        System.out.println("key = " + DigestUtils.md5DigestAsHex(key.toString().getBytes(StandardCharsets.UTF_8)));
         System.out.println("value = " + value);
 
-        RedisTemplate redisTemplate = getRedisTemplate();
+        RedisTemplate<Object,Object> redisTemplate = getRedisTemplate();
         //redisTemplate.setValueSerializer(new StringRedisSerializer());
         //redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
         //使用redis中的hash类型作为存储模型 key 当前mapper的namespace hashkey为方法key value为值
-        redisTemplate.opsForHash().put(id,key.toString(),value);
+        //对key进行md5加密    DigestUtils.md5DigestAsHex(key.getBytes(StandardCharsets.UTF_8))
+        redisTemplate.opsForHash().put(id,DigestUtils.md5DigestAsHex(key.toString().getBytes(StandardCharsets.UTF_8)),value);
 
     }
 
@@ -64,13 +67,13 @@ public class RedisCache implements Cache {
          key = -368409926:4248786120:com.docker.dao.UserDao.selectAll:0:2147483647:select *  from user_info;:MybatisSqlSessionFactoryBean
 
          */
-        System.out.println("key = " + key.toString());
-        RedisTemplate redisTemplate = getRedisTemplate();
+        System.out.println("key = " + DigestUtils.md5DigestAsHex(key.toString().getBytes(StandardCharsets.UTF_8)));
+        RedisTemplate<Object,Object> redisTemplate = getRedisTemplate();
         //redisTemplate.setValueSerializer(new StringRedisSerializer());
         //redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
         //根据key 从redis的hash类型中获取数据
-        return  redisTemplate.opsForHash().get(id, key.toString());
+        return  redisTemplate.opsForHash().get(id, DigestUtils.md5DigestAsHex(key.toString().getBytes(StandardCharsets.UTF_8)));
         //return null;
     }
 
@@ -91,7 +94,7 @@ public class RedisCache implements Cache {
     @Override
     public void clear() {
         log.info("删除数据，调用了clear方法");
-        RedisTemplate redisTemplate = getRedisTemplate();
+        RedisTemplate<Object,Object> redisTemplate = getRedisTemplate();
 
         //情况缓存 将大key删除
         redisTemplate.delete(id);
@@ -104,7 +107,7 @@ public class RedisCache implements Cache {
      */
     @Override
     public int getSize() {
-        RedisTemplate redisTemplate = getRedisTemplate();
+        RedisTemplate<Object,Object> redisTemplate = getRedisTemplate();
         //获取hash 中缓存的数量
         return redisTemplate.opsForHash().size(id).intValue();
     }
@@ -114,9 +117,9 @@ public class RedisCache implements Cache {
      * redisTemplate 统一封装
      * @return redisTemplate
      */
-    private static RedisTemplate getRedisTemplate() {
+    private static RedisTemplate<Object,Object> getRedisTemplate() {
         //首字母必须默认为小写
-        RedisTemplate redisTemplate = (RedisTemplate)ApplicationContextUtils.getBean("redisTemplate");
+        RedisTemplate<Object,Object> redisTemplate = (RedisTemplate<Object,Object>)ApplicationContextUtils.getBean("redisTemplate");
         //redis 的序列化
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         return redisTemplate;
