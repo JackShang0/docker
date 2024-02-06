@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docker.dao.OrderDao">
+
+    <!--开启mybatis的默认二级缓存-->
+    <!--<cache/>
+    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"/>-->
+
+    <!--指向redis的cache-->
+    <!--<cache type="com.docker.cache.RedisCache"/>-->
+
+    <resultMap id="resultMap" type="com.docker.bean.Order">
+        <id property="id" column="id"/>
+        <id property="order" column="order"/>
+    </resultMap>
+
+
+
+    <select id="selectAll"  resultMap="resultMap">
+        select * from order_info;
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String" >
+        delete from order_info where id=#{id};
+    </delete>
+    <!--<select id="queryCountry" parameterType="com.sitech.oss.entity.po.POPAllInfo" resultMap="resultMap">
+        select distinct country from pop_all_info
+    </select>-->
+
+    <select id="selectById" parameterType="java.lang.String" resultType="com.docker.bean.Order">
+        select * from order_info where id=#{id};
+    </select>
+
+
+    <insert id="saveUser" parameterType="com.docker.bean.Order" >
+        insert into order_info values
+        ( #{id}, #{name}, #{age}, #{className}, #{subject})
+    </insert>
+</mapper>
