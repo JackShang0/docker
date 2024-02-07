@@ -20,4 +20,6 @@ public interface OrderDao {
     void deleteById(String id);
 
     int saveUser(User user);
+
+    Order selectOrderById(Order order);
 }

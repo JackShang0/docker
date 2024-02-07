@@ -37,7 +37,9 @@ public class MyCacheAop {
     public Object around(ProceedingJoinPoint joinPoint, MyCache myCache) {
         String cacheNames = myCache.cacheNames();
         String key = myCache.key();
-        int time = myCache.time();
+        System.out.println("key = " + key);
+        Long time = myCache.time();
+        System.out.println("time = " + time);
         /**
          * 思路：
          * 1、拼装redis中存缓存的key值

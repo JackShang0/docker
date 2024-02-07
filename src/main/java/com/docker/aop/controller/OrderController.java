@@ -8,6 +8,7 @@ import com.docker.dao.UserDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -35,5 +36,12 @@ public class OrderController {
     public List<Order> selectOrder(){
         System.out.println("addCache success");
         return  orderDao.selectAll();
+    }
+
+
+    @PostMapping("/selectOrderById")
+    @MyCache(cacheNames = "Order", key = "selectOrder")
+    public Order selectOrderById(@RequestBody Order order){
+        return orderDao.selectOrderById(order);
     }
 }

@@ -21,7 +21,7 @@ public class TestController {
 
     //测试新增缓存
     @GetMapping("/addCache")
-    @CacheFind
+    //@CacheFind
     @MyCache(cacheNames = "cacheTest", key = "userData")
     public String addCache(){
         System.out.println("addCache success");

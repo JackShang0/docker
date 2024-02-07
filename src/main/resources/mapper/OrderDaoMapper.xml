@@ -31,6 +31,9 @@
         select * from order_info where id=#{id};
     </select>
 
+    <select id="selectOrderById" parameterType="com.docker.bean.Order" resultType="com.docker.bean.Order">
+        select * from order_info where id=#{id};
+    </select>
 
     <insert id="saveUser" parameterType="com.docker.bean.Order" >
         insert into order_info values

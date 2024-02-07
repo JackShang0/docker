@@ -16,5 +16,5 @@ public @interface CacheFind {
     //保存到redis中 key value 用户可以自己指定,也可以动态生成
     public String key() default "";
 
-    public int seconds() default 1000*30; //设定超时时间秒，0表示永不超时
+    public int seconds() default 0; //设定超时时间秒，0表示永不超时
 }

@@ -20,5 +20,5 @@ public @interface MyCache {
 
     //缓存时间（单位：秒，默认是无限期）
     //int time() default -1;
-    int time() default 1000*30;
+    long time() default 30L;
 }
